@@ -25,6 +25,7 @@
 .profile__title {
   font-family: "Inter", arial, sans-serif;
   font-weight: 500;
+  font-size: 42px;
   line-height: 1.2;
   grid-area: title;
   margin: 0 0 7px 0;
@@ -32,7 +33,8 @@
 }
 
 .profile__edit-button {
-  background: transparent url("../images/edit-button.svg") center no-repeat;
+  background: transparent url("../images/edit-button-active.png") center
+    no-repeat;
   height: 24px;
   width: 24px;
   grid-area: button;
@@ -44,8 +46,6 @@
 }
 
 .profile__edit-button:hover {
-  background: transparent url("../images/edit-button-hover.svg") center
-    no-repeat;
   opacity: 60%;
 }
 
@@ -63,7 +63,7 @@
 }
 
 .profile__add-button {
-  background: transparent url("../images/add-button.svg") center no-repeat;
+  background: transparent url("../images/add-plus.png") center no-repeat;
   width: 150px;
   height: 50px;
   margin-left: auto;
@@ -73,7 +73,6 @@
 }
 
 .profile__add-button:hover {
-  background: transparent url("../images/add-button-hover.svg") center no-repeat;
   opacity: 60%;
 }
 
@@ -97,6 +96,7 @@
 
   .profile__title {
     margin-right: 10px;
+    font-size: 22px;
   }
 
   .profile__edit-button {
@@ -107,7 +107,7 @@
   .profile__bio {
     width: 100%;
     text-align: center;
-    font-size: 19px;
+    font-size: 14px;
   }
 
   .profile__add-button {
@@ -116,7 +116,7 @@
   }
 }
 
-@media screen and (min-width: 480px) and (max-width: 650px) {
+@media screen and (min-width: 480px) and (max-width: 780px) {
   .profile__add-button {
     margin: 0 0 0 20px;
   }
