@@ -8,6 +8,10 @@
   margin-bottom: 60px;
 }
 
+.footer__trademark {
+  margin: 0;
+}
+
 @media screen and (max-width: 480px) {
   .footer {
     margin-top: 48px;
@@ -17,7 +21,5 @@
   .footer__trademark {
     width: 282px;
     font-size: 14px;
-    line-height: 1.2;
-    margin: 0;
   }
 }

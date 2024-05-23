@@ -74,7 +74,7 @@
   border: 2px solid #ffffff;
   padding: 0;
   transition: opacity linear 0.5s;
-  border-radius: 3px;
+  border-radius: 2px;
 }
 
 .profile__add-button:hover {
