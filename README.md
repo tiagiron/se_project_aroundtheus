@@ -6,19 +6,22 @@
 - Figma
 - Images
 
-**Intro**
-
-This project is made so all the elements are displayed correctly on popular screen sizes. We recommend investing more time in completing this project, since it's more difficult than previous ones.
-
 **Figma**
 
 - [Link to the project on Figma](https://www.figma.com/file/ii4xxsJ0ghevUOcssTlHZv/Sprint-3%3A-Around-the-US?node-id=0%3A1)
 
-**Images**
+### Description
 
-The way you'll do this at work is by exporting images directly from Figma — we recommend doing that to practice more. Don't forget to optimize them [here](https://tinypng.com/), so your project loads faster.
+This project utilized intermediate and advanced HTML/CSS in order to build a responsive design, from scratch, suitable for desktop and iPhone configurations.
 
-Good luck and have fun!
+### Technologies
 
-Link to GitHub Pages:
-https://tiagiron.github.io/se_project_aroundtheus
+HTML/CSS
+
+### Link to GitHub Pages
+
+https://tiagiron.github.io/se_project_aroundtheus/
+
+### Author Video
+
+https://drive.google.com/file/d/1EeOKNMUugsHsMDlzz268nbb8dYVMWLwZ/view?usp=drive_link

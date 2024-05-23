@@ -7,3 +7,17 @@
   margin-top: 67px;
   margin-bottom: 60px;
 }
+
+@media screen and (max-width: 480px) {
+  .footer {
+    margin-top: 48px;
+    margin-bottom: 36px;
+  }
+
+  .footer__trademark {
+    width: 282px;
+    font-size: 14px;
+    line-height: 1.2;
+    margin: 0;
+  }
+}
