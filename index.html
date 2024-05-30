@@ -139,22 +139,22 @@
         <p class="footer__trademark">© 2022 Around The U.S.</p>
       </footer>
     </div>
-    <div class="modal modal__opened">
+    <div class="modal" id="profile-edit-modal">
       <div class="modal__container">
-        <button class="modal__close"></button>
+        <button class="modal__close" id="modal-close-button"></button>
         <p class="modal__heading">Edit Profile</p>
         <form class="modal__form">
           <input
             type="text"
             name="title"
             class="modal__form-input"
-            placeholder="Jacques Cousteau"
+            placeholder="Name"
           />
           <input
             type="text"
             name="bio"
             class="modal__form-input"
-            placeholder="Explorer"
+            placeholder="Description"
           />
           <button class="modal__button">Save</button>
         </form>

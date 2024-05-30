@@ -10,7 +10,7 @@
   padding: 0 19px;
 }
 
-.modal__opened {
+.modal_opened {
   display: flex;
 }
 
@@ -26,12 +26,17 @@
 .modal__close {
   background: transparent url("../images/close.svg") center no-repeat;
   border: none;
-  cursor: pointer;
   width: 40px;
   height: 40px;
   position: absolute;
   bottom: calc(100% + 5px);
   left: calc(100% + 5px);
+  transition: opacity linear 0.5s;
+}
+
+.modal__close:hover {
+  cursor: pointer;
+  opacity: 0.6;
 }
 
 .modal__heading {
@@ -81,6 +86,12 @@
   margin: 48px 36px 36px;
   padding: 0;
   border: none;
+  transition: opacity linear 0.5s;
+}
+
+.modal__button:hover {
+  opacity: 0.8;
+  cursor: pointer;
 }
 
 @media screen and (max-width: 630px) {
