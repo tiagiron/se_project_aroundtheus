@@ -9,7 +9,7 @@ const initialCards = [
   },
   {
     name: "Bald Mountains",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/around-project/bald-mountainsjpg",
+    link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/around-project/bald-mountains.jpg",
   },
   {
     name: "Latemar",
@@ -37,10 +37,23 @@ const profileEditForm = profileEditModal.querySelector(".modal__form");
 const profileModalCloseButton = profileEditModal.querySelector(
   "#modal-close-button",
 );
+const cardListEl = document.querySelector(".cards__list");
+const cardTemplate =
+  document.querySelector("#card-template").content.firstElementChild;
 
 /* Functions */
 function closePopup() {
   profileEditModal.classList.remove("modal_opened");
+}
+
+function getCardElement(cardData) {
+  const cardElement = cardTemplate.cloneNode(true);
+  const cardTitleEl = cardElement.querySelector(".card__title");
+  const cardImageEl = cardElement.querySelector(".card__image");
+  cardImageEl.src = cardData.link;
+  cardImageEl.alt = cardData.name;
+  cardTitleEl.textContent = cardData.name;
+  return cardElement;
 }
 
 /* Event Handlers */
@@ -63,3 +76,8 @@ profileModalCloseButton.addEventListener("click", () => {
 });
 
 profileEditForm.addEventListener("submit", handleProfileEditSubmit);
+
+initialCards.forEach((cardData) => {
+  const cardElement = getCardElement(cardData);
+  cardListEl.append(cardElement);
+});
