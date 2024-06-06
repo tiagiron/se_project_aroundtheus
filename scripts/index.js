@@ -34,16 +34,26 @@ const profileBio = document.querySelector(".profile__bio");
 const profileTitleInput = document.querySelector("#profile-title-input");
 const profileBioInput = document.querySelector("#profile-bio-input");
 const profileEditForm = profileEditModal.querySelector(".modal__form");
-const profileModalCloseButton = profileEditModal.querySelector(
-  "#modal-close-button",
-);
+const profileModalCloseButton = profileEditModal.querySelector(".modal__close");
 const cardListEl = document.querySelector(".cards__list");
 const cardTemplate =
   document.querySelector("#card-template").content.firstElementChild;
+const addCardButton = document.querySelector(".profile__add-button");
+const addCardModal = document.querySelector("#add-card-modal");
+const addCardModalCloseButton = addCardModal.querySelector(".modal__close");
 
 /* Functions */
-function closePopup() {
-  profileEditModal.classList.remove("modal_opened");
+// function openModal() {
+//
+//   profileEditModal.classList.add("modal_opened");
+// }
+
+function openModal(modal) {
+  modal.classList.add("modal_opened");
+}
+
+function closeModal(modal) {
+  modal.classList.remove("modal_opened");
 }
 
 function getCardElement(cardData) {
@@ -61,21 +71,27 @@ function handleProfileEditSubmit(event) {
   event.preventDefault();
   profileTitle.textContent = profileTitleInput.value;
   profileBio.textContent = profileBioInput.value;
-  closePopup();
+  closeModal(profileEditModal);
 }
 
 /* Event Listeners */
 profileEditButton.addEventListener("click", () => {
   profileTitleInput.value = profileTitle.textContent;
   profileBioInput.value = profileBio.textContent;
-  profileEditModal.classList.add("modal_opened");
+  openModal(profileEditModal);
 });
 
-profileModalCloseButton.addEventListener("click", () => {
-  closePopup();
-});
+profileModalCloseButton.addEventListener("click", () =>
+  closeModal(profileEditModal),
+);
 
 profileEditForm.addEventListener("submit", handleProfileEditSubmit);
+
+addCardButton.addEventListener("click", () => openModal(addCardModal));
+
+addCardModalCloseButton.addEventListener("click", () =>
+  closeModal(addCardModal),
+);
 
 initialCards.forEach((cardData) => {
   const cardElement = getCardElement(cardData);
