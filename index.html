@@ -53,7 +53,7 @@
       <div class="modal__container">
         <button class="modal__close"></button>
         <p class="modal__heading">Edit Profile</p>
-        <form class="modal__form">
+        <form class="modal__form" id="profile-edit-form">
           <input
             type="text"
             name="title"
@@ -94,9 +94,23 @@
         </form>
       </div>
     </div>
+    <!-- Card Image Modal-->
+    <div class="modal" id="card-image-modal">
+      <div class="modal__container">
+        <button class="modal__close"></button>
+        <img src="" alt="" class="card__image" />
+        <h2 class="card__title"></h2>
+      </div>
+    </div>
+    <!-- Card Template -->
     <template id="card-template">
       <li class="card">
         <img src="" alt="" class="card__image" />
+        <button
+          class="card__delete-button"
+          type="button"
+          aria-label="delete"
+        ></button>
         <div class="card__description">
           <h2 class="card__title"></h2>
           <button
