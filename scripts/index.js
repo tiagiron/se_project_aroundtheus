@@ -77,9 +77,9 @@ function getCardElement(cardData) {
   cardTitleEl.textContent = cardData.name;
 
   cardImageEl.addEventListener("click", () => {
-    cardImageModalImage = cardImageEl.src;
-    cardImageModalImage = cardImageEl.alt;
-    cardImageModalTitle = cardTitleEl.textContent;
+    cardImageModalImage.src = cardData.link;
+    cardImageModalImage.alt = cardData.name;
+    cardImageModalTitle.textContent = cardData.name;
     openModal(cardImageModal);
   });
 
