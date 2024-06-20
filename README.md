@@ -26,4 +26,5 @@ https://tiagiron.github.io/se_project_aroundtheus/
 
 ### Author Video
 
+_Updating video soon_
 https://drive.google.com/file/d/1EeOKNMUugsHsMDlzz268nbb8dYVMWLwZ/view?usp=drive_link
