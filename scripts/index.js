@@ -33,7 +33,7 @@ const profileTitle = document.querySelector(".profile__title");
 const profileBio = document.querySelector(".profile__bio");
 const profileTitleInput = document.querySelector("#profile-title-input");
 const profileBioInput = document.querySelector("#profile-bio-input");
-const profileEditForm = document.querySelector(".modal__form");
+const profileEditForm = document.forms["profile-edit-form"];
 const cardListEl = document.querySelector(".cards__list");
 const cardTemplate =
   document.querySelector("#card-template").content.firstElementChild;
@@ -41,7 +41,7 @@ const addCardButton = document.querySelector(".profile__add-button");
 const addCardModal = document.querySelector("#add-card-modal");
 const cardTitleInput = document.querySelector(".modal__input_type_title");
 const cardLinkInput = document.querySelector(".modal__input_type_link");
-const addCardForm = addCardModal.querySelector(".modal__form");
+const addCardForm = document.forms["add-card-form"];
 const cardImageModal = document.querySelector("#card-image-modal");
 const cardImageModalImage = document.querySelector("#modal-image");
 const cardImageModalTitle = document.querySelector("#modal-title");
@@ -99,7 +99,7 @@ function closeModalByOverlay(evt) {
 }
 
 function closeModalByPressingESC(evt) {
-  if (evt.key === "Escape") {
+  if (evt.key === "Escape" || evt.key === "esc" || evt.keyCode === 27) {
     const modal = document.querySelector(".modal_opened");
     closeModal(modal);
   }
@@ -142,11 +142,3 @@ closeButtons.forEach((button) => {
   const modal = button.closest(".modal");
   button.addEventListener("click", () => closeModal(modal));
 });
-
-modals.forEach((modal) => {
-  modal.addEventListener("click", closeModalByOverlay);
-});
-
-document.addEventListener("keydown", closeModalByPressingESC);
-
-/* WORKING */

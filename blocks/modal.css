@@ -69,6 +69,7 @@
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
   padding: 0 0 13px 0;
   margin: 0 36px 0 36px;
+  position: relative;
 }
 
 .modal__input_type_error {
@@ -76,7 +77,7 @@
 }
 
 .modal__input:first-of-type {
-  margin: 0 36px 0 36px;
+  margin: 0 36px 29px 36px;
 }
 
 .modal__input::placeholder {
@@ -90,8 +91,17 @@
   color: #ff0000;
   font-size: 12px;
   line-height: 1.2;
-  margin: 5px 36px 13px 36px;
+  position: absolute;
+  left: 36px;
   transition: opacity 0.3s;
+}
+
+.modal__error:first-of-type {
+  bottom: calc(50%);
+}
+
+.modal__error:last-of-type {
+  bottom: calc(32%);
 }
 
 .modal__button {
