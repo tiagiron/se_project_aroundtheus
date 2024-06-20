@@ -3,6 +3,7 @@
   flex-direction: column;
   width: 282px;
   position: relative;
+  cursor: pointer;
 }
 
 .card__image {

@@ -71,8 +71,12 @@
   margin: 0 36px 0 36px;
 }
 
+.modal__input_type_error {
+  border-bottom-color: #ff0000;
+}
+
 .modal__input:first-of-type {
-  margin: 0 36px 30px 36px;
+  margin: 0 36px 0 36px;
 }
 
 .modal__input::placeholder {
@@ -80,6 +84,14 @@
   font-weight: 400;
   line-height: 1.2;
   color: #000;
+}
+
+.modal__error {
+  color: #ff0000;
+  font-size: 12px;
+  line-height: 1.2;
+  margin: 5px 36px 13px 36px;
+  transition: opacity 0.3s;
 }
 
 .modal__button {
@@ -92,13 +104,24 @@
   font-weight: 400;
   margin: 48px 36px 36px;
   padding: 0;
-  border: none;
   transition: opacity linear 0.5s;
 }
 
 .modal__button:hover {
   opacity: 0.8;
   cursor: pointer;
+}
+
+.modal__button_disabled {
+  opacity: 0.2;
+  color: #000;
+  background-color: white;
+  border: 1px #000 2px;
+}
+
+.modal__button_disabled:hover {
+  cursor: none;
+  opacity: 0.2;
 }
 
 #card-image-modal-container {
