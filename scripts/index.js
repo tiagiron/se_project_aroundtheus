@@ -95,10 +95,13 @@ function renderCard(cardData, list) {
 }
 
 function closeModalByOverlay(evt) {
-  closeModal(evt.target);
+  if (evt.target === evt.currentTarget) {
+    closeModal(evt.currentTarget);
+  }
 }
 
 function closeModalByPressingESC(evt) {
+  console.log("Key pressed: ", evt.key);
   if (evt.key === "Escape" || evt.key === "esc" || evt.keyCode === 27) {
     const modal = document.querySelector(".modal_opened");
     closeModal(modal);
