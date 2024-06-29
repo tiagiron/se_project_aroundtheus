@@ -68,9 +68,14 @@ addFormValidator.enableValidation();
 
 /* Functions */
 
+function createCard(item) {
+  const card = new Card(item, cardSelector, handleImageClick);
+  return card.getView();
+}
+
 const renderCard = (cardData, cardListEl) => {
-  const card = new Card(cardData, cardSelector, handleImageClick);
-  cardListEl.prepend(card.getView());
+  const cardElement = createCard(cardData);
+  cardListEl.prepend(cardElement);
 };
 
 function openModal(modal) {
@@ -102,8 +107,8 @@ function closeModalByPressingESC(evt) {
 
 function handleImageClick(cardData) {
   cardImageModalImage.src = cardData.link;
-  cardImageModalImage.textContent = cardData.name;
-  cardImageModalTitle.alt = cardData.name;
+  cardImageModalImage.alt = cardData.name;
+  cardImageModalTitle.textContent = cardData.name;
   openModal(cardImageModal);
 }
 
@@ -112,7 +117,7 @@ function handleProfileEditFormSubmit(event) {
   profileTitle.textContent = profileTitleInput.value;
   profileBio.textContent = profileBioInput.value;
   closeModal(profileEditModal);
-  event.target.reset();
+  editFormValidator.resetValidation();
 }
 
 function handleAddCardFormSubmit(event) {
@@ -121,7 +126,7 @@ function handleAddCardFormSubmit(event) {
   const link = cardLinkInput.value;
   renderCard({ name, link }, cardListEl);
   closeModal(addCardModal);
-  event.target.reset();
+  addFormValidator.resetValidation();
 }
 
 /* Event Listeners */
