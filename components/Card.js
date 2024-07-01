@@ -7,20 +7,16 @@ export default class Card {
   }
 
   _setEventListeners() {
-    this._cardElement
-      .querySelector(".card__image")
-      .addEventListener("click", () => {
-        this._handleImageClick(this);
-      });
+    this._cardImage.addEventListener("click", () => {
+      this._handleImageClick(this);
+    });
     // ".card__like-button"
-    this._cardElement
-      .querySelector(".card__like-button")
-      .addEventListener("click", () => {
-        this._handleLikeIcon();
-      });
+    this._likeButton.addEventListener("click", () => {
+      this._handleLikeIcon();
+    });
     // ".card__delete-button"
     this._deleteButton.addEventListener("click", () => {
-      this._handleDeleteCard({ data: this.name, data: this.link });
+      this._handleDeleteCard();
     });
   }
 
@@ -38,13 +34,6 @@ export default class Card {
       .querySelector(this._cardSelector)
       .content.querySelector(".card")
       .cloneNode(true);
-  }
-
-  _handleImageClick() {
-    this._cardImageModalImage.querySelector("#modal-image").src = this.link;
-    this._cardImageModalImage.querySelector("#modal-title").textContent =
-      this.name;
-    this._cardImageModalTitle.querySelector("#modal-image").alt = this.name;
   }
 
   getView() {

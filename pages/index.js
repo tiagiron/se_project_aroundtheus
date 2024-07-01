@@ -51,6 +51,7 @@ const cardImageModalTitle = document.querySelector("#modal-title");
 const closeButtons = document.querySelectorAll(".modal__close");
 const modals = [profileEditModal, addCardModal, cardImageModal];
 const cardSelector = "#card-template";
+const formInputs = document.querySelectorAll("modal__input");
 
 const settings = {
   formSelector: ".modal__form",
@@ -117,7 +118,6 @@ function handleProfileEditFormSubmit(event) {
   profileTitle.textContent = profileTitleInput.value;
   profileBio.textContent = profileBioInput.value;
   closeModal(profileEditModal);
-  editFormValidator.toggleButtonState();
 }
 
 function handleAddCardFormSubmit(event) {
@@ -127,6 +127,7 @@ function handleAddCardFormSubmit(event) {
   renderCard({ name, link }, cardListEl);
   closeModal(addCardModal);
   addFormValidator.toggleButtonState();
+  event.target.reset();
 }
 
 /* Event Listeners */
@@ -135,7 +136,7 @@ profileEditButton.addEventListener("click", () => {
   profileTitleInput.value = profileTitle.textContent;
   profileBioInput.value = profileBio.textContent;
   openModal(profileEditModal);
-  editFormValidator.disableButton();
+  editFormValidator.toggleButtonState();
 });
 
 profileEditForm.addEventListener("submit", handleProfileEditFormSubmit);
