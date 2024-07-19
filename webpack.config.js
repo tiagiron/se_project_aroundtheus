@@ -57,6 +57,8 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: "./src/index.html", // path to our index.html file
+      filename: "index.html",
+      inject: "body",
     }),
     new CleanWebpackPlugin(),
     new MiniCssExtractPlugin(),

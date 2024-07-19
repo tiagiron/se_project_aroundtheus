@@ -35,12 +35,20 @@ const closeButtons = document.querySelectorAll(".modal__close");
 const section = new Section(
   {
     items: initialCards,
-    renderer: (item) => {
-      section.addItem(createCard(item));
-    },
-    cardListEl,
-  },
+    renderer: (data) => {
+      const card = new Card(
+        {
+          data,
+          handleImageClick: () => {
+            imageModal.open(data);
+          },
+        },
+        cardSelectors.cardTemplate,
+      );
 
+      section.addItem(card.getView());
+    },
+  },
   cardSelectors.cardListEl,
 );
 
@@ -54,7 +62,7 @@ const editProfileModal = new ModalWithForm(
   handleProfileEditFormSubmit,
 );
 
-const cardPreviewModal = new ModalWithImage(cardSelectors.previewModal);
+const imageModal = new ModalWithImage(cardSelectors.previewModal);
 
 const user = new UserInfo({
   name: ".profile__title",
@@ -63,7 +71,7 @@ const user = new UserInfo({
 
 //initialize instances
 section.renderItems(initialCards);
-cardPreviewModal.setEventListeners();
+imageModal.setEventListeners();
 newCardModal.setEventListeners();
 editProfileModal.setEventListeners();
 
@@ -76,21 +84,8 @@ addFormValidator.enableValidation();
 
 /* Functions */
 
-// renderer: (data) => {
-//   const cardEl = new Card(
-//     {
-//       data,
-//       handleImageClick: (imageData) => {
-//         CardPreviewModal.open(imageData);
-//       },
-//     },
-//     cardSelectors.cardTemplate,
-//   );
-//   cardListEl.addItem(cardEl.getView());
-// };
-
 function createCard(cardData) {
-  const card = new Card(cardData, cardSelector, handleImageClick);
+  const card = new Card(cardData, "#card-template", handleImageClick);
   return card.getView();
 }
 
@@ -102,7 +97,7 @@ const renderCard = (cardData, cardListEl) => {
 /* Event Handlers */
 
 function handleImageClick(cardData) {
-  cardPreviewModal.open(cardData);
+  imageModal.open(cardData);
 }
 
 function handleProfileEditFormSubmit() {
@@ -114,11 +109,11 @@ function handleProfileEditFormSubmit() {
   editProfileModal.close();
 }
 
-function handleAddCardFormSubmit(newCardData, cardListEl) {
-  const name = newCardData.title;
-  const alt = newCardData.title;
-  const link = newCardData.url;
-  section.addItem(createCard({ name, alt, link }));
+function handleAddCardFormSubmit(cardData, cardListEl) {
+  const name = cardData.name;
+  const link = cardData.link;
+  section.addItem(createCard(cardData));
+  renderCard(cardData, cardListEl);
   newCardModal.close();
   addFormValidator.resetForm();
 }
