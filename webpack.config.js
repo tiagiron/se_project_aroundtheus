@@ -57,6 +57,7 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: "./src/index.html", // path to our index.html file
+      favicon: "./src/images/favicon.ico",
       filename: "index.html",
       inject: "body",
     }),
@@ -65,16 +66,5 @@ module.exports = {
   ],
 };
 
-/*Build the project with the npm run build command, 
-and open the dist folder. The index.html file has appeared 
-inside it. If you open it, you'll see that webpack has 
-independently and automatically added the required <script> 
-tags. Now, our HTML and JS are connected to each other, 
-and to Webpack too.
-
-Now, if we run the npm run dev command,
- we can view our project in the browser. 
- Go to http://localhost:8080 and try it! You should see 
- the <h1> from our HTML file being rendered. And if you 
- open your console, you'll see that the JavaScript file
-  is being executed as well.*/
+/*we can view our project in the browser. 
+ Go to http://localhost:8080 and try it!*/
