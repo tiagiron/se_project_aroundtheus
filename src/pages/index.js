@@ -2,30 +2,23 @@ import "../pages/index.css";
 
 //imports
 
-import { initialCards, cardSelectors, settings } from "../utils/constants.js";
+import {
+  initialCards,
+  cardSelectors,
+  settings,
+  profileEditButton,
+  profileTitleInput,
+  profileBioInput,
+  profileEditForm,
+  addCardButton,
+  addCardForm,
+} from "../utils/constants.js";
 import Card from "../components/Card.js";
 import FormValidator from "../components/FormValidator.js";
 import ModalWithForm from "../components/ModalWithForm.js";
 import ModalWithImage from "../components/ModalWithImage.js";
 import UserInfo from "../components/UserInfo.js";
 import Section from "../components/Section.js";
-
-//constants
-const profileEditButton = document.querySelector(".profile__edit-button");
-const profileTitleInput = document.querySelector("#profile-title-input");
-const profileBioInput = document.querySelector("#profile-bio-input");
-const profileEditForm = document.forms["profile-edit-form"];
-const addCardButton = document.querySelector(".profile__add-button");
-const cardListEl = document.querySelector(".cards__list");
-const cardTemplate =
-  document.querySelector("#card-template").content.firstElementChild;
-const addCardModal = document.querySelector("#add-card-modal");
-const cardTitleInput = document.querySelector(".modal__input_type_title");
-const cardLinkInput = document.querySelector(".modal__input_type_link");
-const addCardForm = document.forms["add-card-form"];
-const cardImageModal = document.querySelector("#card-image-modal");
-const cardImageModalImage = document.querySelector("#modal-image");
-const cardImageModalTitle = document.querySelector("#modal-title");
 
 //instantiate
 const section = new Section(
