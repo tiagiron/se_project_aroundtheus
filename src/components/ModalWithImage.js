@@ -7,10 +7,10 @@ export default class ModalWithImage extends Modal {
     this._modalCardTitle = this._modalElement.querySelector("#modal-title");
   }
 
-  open({ name, link }) {
-    this._modalCardImage.src = link;
-    this._modalCardImage.alt = name;
-    this._modalCardTitle.textContent = name;
+  open(data) {
+    this._modalCardImage.src = data.link;
+    this._modalCardImage.alt = data.name;
+    this._modalCardTitle.textContent = data.name;
     super.open();
   }
 }

@@ -26,7 +26,7 @@ export const initialCards = [
 ];
 
 export const cardSelectors = {
-  cardListEl: "cards__list",
+  cardListEl: ".cards__list",
   cardTemplate: "#card-template",
   previewModal: "#card-image-modal",
 };
