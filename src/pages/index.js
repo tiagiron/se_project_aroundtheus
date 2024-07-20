@@ -12,9 +12,6 @@ import Section from "../components/Section.js";
 
 //constants
 const profileEditButton = document.querySelector(".profile__edit-button");
-const profileEditModal = document.querySelector("#profile-edit-modal");
-const profileTitle = document.querySelector(".profile__title");
-const profileBio = document.querySelector(".profile__bio");
 const profileTitleInput = document.querySelector("#profile-title-input");
 const profileBioInput = document.querySelector("#profile-bio-input");
 const profileEditForm = document.forms["profile-edit-form"];
@@ -29,33 +26,22 @@ const addCardForm = document.forms["add-card-form"];
 const cardImageModal = document.querySelector("#card-image-modal");
 const cardImageModalImage = document.querySelector("#modal-image");
 const cardImageModalTitle = document.querySelector("#modal-title");
-const closeButtons = document.querySelectorAll(".modal__close");
 
 //instantiate
 const section = new Section(
   {
     items: initialCards,
     renderer: (data) => {
-      const card = new Card(
-        {
-          data,
-          handleImageClick: () => {
-            imageModal.open(data);
-          },
-        },
-        cardSelectors.cardTemplate,
-      );
-
-      section.addItem(card.getView());
+      section.addItem(createCard(data));
     },
   },
   cardSelectors.cardListEl,
 );
 
-// const newCardModal = new ModalWithForm(
-//   "#add-card-modal",
-//   handleAddCardFormSubmit,
-// );
+const newCardModal = new ModalWithForm(
+  "#add-card-modal",
+  handleAddCardFormSubmit,
+);
 
 const editProfileModal = new ModalWithForm(
   "#profile-edit-modal",
@@ -72,7 +58,7 @@ const user = new UserInfo({
 // //initialize instances
 section.renderItems(initialCards);
 imageModal.setEventListeners();
-// newCardModal.setEventListeners();
+newCardModal.setEventListeners();
 editProfileModal.setEventListeners();
 
 // /* Validation */
@@ -84,41 +70,36 @@ addFormValidator.enableValidation();
 
 // /* Functions */
 
-// function createCard(cardData) {
-//   const card = new Card(cardData, "#card-template", handleImageClick);
-//   return card.getView();
-// }
-
-// const renderCard = (cardData, cardListEl) => {
-//   const cardElement = createCard(cardData);
-//   cardListEl.prepend(cardElement);
-// };
+function createCard(data) {
+  const card = new Card(
+    {
+      data,
+      handleImageClick: () => {
+        imageModal.open(data);
+      },
+    },
+    cardSelectors.cardTemplate,
+  );
+  return card.getView();
+}
 
 // /* Event Handlers */
 
-// function handleProfileEditFormSubmit() {
-//   const inputValues = editProfileModal._getInputValues();
-//   user.setUserInfo({
-//     name: inputValues.profileTitleInput,
-//     bio: inputValues.profileBioInput,
-//   });
-//   editProfileModal.close();
-// }
 function handleProfileEditFormSubmit(profileData) {
-  const name = profileData.name;
+  const name = profileData.title;
   const bio = profileData.bio;
   user.setUserInfo({ name, bio });
   editProfileModal.close();
 }
 
-// function handleAddCardFormSubmit(cardData, cardListEl) {
-//   const name = cardData.name;
-//   const link = cardData.link;
-//   section.addItem(createCard(cardData));
-//   renderCard(cardData, cardListEl);
-//   newCardModal.close();
-//   addFormValidator.resetForm();
-// }
+function handleAddCardFormSubmit(newCardData) {
+  console.log(newCardData);
+  const name = newCardData.title;
+  const alt = newCardData.title;
+  const link = newCardData.link;
+  section.addItem(createCard({ name, alt, link }));
+  newCardModal.close();
+}
 
 // /* Event Listeners */
 
@@ -130,15 +111,7 @@ profileEditButton.addEventListener("click", () => {
   editFormValidator.toggleButtonState();
 });
 
-// profileEditForm.addEventListener("submit", handleProfileEditFormSubmit);
-
-// addCardButton.addEventListener("click", () => newCardModal.open());
-
-// // addCardForm.addEventListener("submit", handleAddCardFormSubmit);
-
-// // initialCards.forEach((cardData) => renderCard(cardData, cardListEl));
-
-// // closeButtons.forEach((button) => {
-// //   const modal = button.closest(".modal");
-// //   button.addEventListener("click", () => closeModal(modal));
-// // });
+addCardButton.addEventListener("click", () => {
+  newCardModal.open();
+  addFormValidator.resetValidation();
+});
