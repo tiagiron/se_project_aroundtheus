@@ -3,7 +3,6 @@ import "../pages/index.css";
 //imports
 
 import {
-  initialCards,
   cardSelectors,
   settings,
   profileEditButton,
@@ -19,11 +18,16 @@ import ModalWithForm from "../components/ModalWithForm.js";
 import ModalWithImage from "../components/ModalWithImage.js";
 import UserInfo from "../components/UserInfo.js";
 import Section from "../components/Section.js";
+import Api from "../components/API.js";
 
 //instantiate
+const api = new Api({
+  baseURL: "https://around-api.en.tripleten-services.com/v1",
+  authToken: "ea161ff4-cda4-4a20-a8db-64fec38336d8",
+});
+
 const section = new Section(
   {
-    items: initialCards,
     renderer: (data) => {
       section.addItem(createCard(data));
     },
@@ -49,7 +53,15 @@ const user = new UserInfo({
 });
 
 // //initialize instances
-section.renderItems(initialCards);
+
+api
+  .getInitialCards()
+  .then((cards) => {
+    section.renderItems(cards);
+  })
+  .catch((err) => {
+    console.error(err);
+  });
 imageModal.setEventListeners();
 newCardModal.setEventListeners();
 editProfileModal.setEventListeners();
