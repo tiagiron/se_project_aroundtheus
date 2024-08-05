@@ -4,11 +4,67 @@ export default class Api {
     this._authToken = authToken;
   }
 
+  getUserInfo() {
+    return fetch(`${this._baseURL}//users/me`, {
+      headers: {
+        authorization: this._authToken,
+      },
+    })
+      .then((res) => {
+        return res.ok ? res.json() : Promise.reject(`Error: ${res.status}`);
+      })
+      .catch((err) => {
+        return console.error(err);
+      });
+  }
+
   getInitialCards() {
     return fetch(`${this._baseURL}/cards`, {
       headers: {
         authorization: this._authToken,
       },
+    })
+      .then((res) => {
+        return res.ok ? res.json() : Promise.reject(`Error: ${res.status}`);
+      })
+      .catch((err) => {
+        return console.error(err);
+      });
+  }
+
+  getAppInfo() {
+    /* Cards should be rendered after the user information is received from the server. Сreate 
+    a function in Api.js and return the Promise.all() method. Pass the array of function calls 
+    for getting user information and the list of cards to Promise.all() as a parameter.*/
+    return Promise.all([getUserInfo, getInitialCards]).then((res) =>
+      console.log(res),
+    );
+  }
+
+  /*editProfile() {
+  fetch(`${this._baseURL}/users/me`, {
+  method: "PATCH",
+  headers: {
+    authorization: this._authToken,
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify({
+    name: "Marie Skłodowska Curie", (The values of these properties should contain the modified profile data.)
+    about: "Physicist and Chemist"
+  })
+});}
+*/
+  addCard({ name, link }) {
+    return fetch(`${this._baseURL}/cards`, {
+      method: "POST",
+      headers: {
+        authorization: this._authToken,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name,
+        link,
+      }),
     })
       .then((res) => {
         res.ok ? res.json() : Promise.reject(`Error: ${res.status}`);
@@ -17,11 +73,7 @@ export default class Api {
         console.error(err);
       });
   }
-  // other methods for working with the API
 }
-
-/* Cards should be rendered after the user information is received from the server. Сreate a function in Api.js and return the Promise.all() method. Pass the array of function calls for getting user information and the list of cards to Promise.all() as a parameter.
- */
 
 // Endpoints:
 /*User routes

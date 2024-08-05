@@ -20,12 +20,29 @@ import UserInfo from "../components/UserInfo.js";
 import Section from "../components/Section.js";
 import Api from "../components/API.js";
 
-//instantiate
+//API
 const api = new Api({
   baseURL: "https://around-api.en.tripleten-services.com/v1",
   authToken: "ea161ff4-cda4-4a20-a8db-64fec38336d8",
 });
 
+api.getUserInfo().then((userData) =>
+  user.setUserInfo({
+    name: userData.name,
+    bio: userData.about,
+  }),
+);
+
+api
+  .getInitialCards()
+  .then((cards) => {
+    section.renderItems(cards);
+  })
+  .catch((err) => {
+    console.error(err);
+  });
+
+//instantiate
 const section = new Section(
   {
     renderer: (data) => {
@@ -35,15 +52,19 @@ const section = new Section(
   cardSelectors.cardListEl,
 );
 
-const newCardModal = new ModalWithForm(
-  "#add-card-modal",
-  handleAddCardFormSubmit,
-);
+const newCardModal = new ModalWithForm({
+  modalSelector: "#add-card-modal",
+  handleFormSubmit: (data) => {
+    api.addCard(data).then((data) => {
+      section.addItem(createCard(data));
+    });
+  },
+});
 
-const editProfileModal = new ModalWithForm(
-  "#profile-edit-modal",
-  handleProfileEditFormSubmit,
-);
+const editProfileModal = new ModalWithForm({
+  modalSelector: "#profile-edit-modal",
+  handleFormSubmit: handleProfileEditFormSubmit,
+});
 
 const imageModal = new ModalWithImage(cardSelectors.previewModal);
 
@@ -54,14 +75,6 @@ const user = new UserInfo({
 
 // //initialize instances
 
-api
-  .getInitialCards()
-  .then((cards) => {
-    section.renderItems(cards);
-  })
-  .catch((err) => {
-    console.error(err);
-  });
 imageModal.setEventListeners();
 newCardModal.setEventListeners();
 editProfileModal.setEventListeners();
@@ -97,14 +110,22 @@ function handleProfileEditFormSubmit(profileData) {
   editProfileModal.close();
 }
 
-function handleAddCardFormSubmit(newCardData) {
+// function handleAddCardFormSubmit(data) {
+//   api.addCard(data).then((data) => section.addItem(createCard(data)));
+//   newCardModal.close();
+// }
+
+// api.addCard(data).then((data) => createCard(data));
+// section.addItem(createCard({ name, alt, link }));
+
+/* function handleAddCardFormSubmit(newCardData) {
   console.log(newCardData);
   const name = newCardData.title;
   const alt = newCardData.title;
   const link = newCardData.link;
   section.addItem(createCard({ name, alt, link }));
   newCardModal.close();
-}
+}*/
 
 // /* Event Listeners */
 
