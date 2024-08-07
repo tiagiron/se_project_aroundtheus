@@ -42,6 +42,8 @@ api
     console.error(err);
   });
 
+// api.getAppInfo().then(([getUserInfo, getInitialCards]) => {
+
 //instantiate
 const section = new Section(
   {
@@ -55,16 +57,51 @@ const section = new Section(
 const newCardModal = new ModalWithForm({
   modalSelector: "#add-card-modal",
   handleFormSubmit: (data) => {
-    api.addCard(data).then((data) => {
-      section.addItem(createCard(data));
-    });
+    console.log("data:", data);
+    api
+      .addCard({
+        name: data.title,
+        link: data.link,
+      })
+      .then((data) => {
+        section.addItem(createCard(data));
+      });
   },
 });
 
 const editProfileModal = new ModalWithForm({
   modalSelector: "#profile-edit-modal",
-  handleFormSubmit: handleProfileEditFormSubmit,
+  handleFormSubmit: (data) => {
+    console.log("data:", data);
+    api
+      .editProfile({
+        name: data.title,
+        about: data.bio,
+      })
+      .then((data) => {
+        user.setUserInfo({ data });
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  },
 });
+
+// function handleProfileEditFormSubmit(profileData) {
+//   const name = profileData.title;
+//   const bio = profileData.bio;
+//   user.setUserInfo({ name, bio });
+//   editProfileModal.close();
+// }
+
+/* function handleAddCardFormSubmit(newCardData) {
+  console.log(newCardData);
+  const name = newCardData.title;
+  const alt = newCardData.title;
+  const link = newCardData.link;
+  section.addItem(createCard({ name, alt, link }));
+  newCardModal.close();
+}*/
 
 const imageModal = new ModalWithImage(cardSelectors.previewModal);
 
@@ -95,39 +132,19 @@ function createCard(data) {
       handleImageClick: () => {
         imageModal.open(data);
       },
+      handleDeleteCardClick: () => {
+        const id = card.getID();
+        api.deleteCard(id).then(() => {
+          card.handleDeleteCard();
+        });
+      },
     },
     cardSelectors.cardTemplate,
   );
   return card.getView();
 }
 
-// /* Event Handlers */
-
-function handleProfileEditFormSubmit(profileData) {
-  const name = profileData.title;
-  const bio = profileData.bio;
-  user.setUserInfo({ name, bio });
-  editProfileModal.close();
-}
-
-// function handleAddCardFormSubmit(data) {
-//   api.addCard(data).then((data) => section.addItem(createCard(data)));
-//   newCardModal.close();
-// }
-
-// api.addCard(data).then((data) => createCard(data));
-// section.addItem(createCard({ name, alt, link }));
-
-/* function handleAddCardFormSubmit(newCardData) {
-  console.log(newCardData);
-  const name = newCardData.title;
-  const alt = newCardData.title;
-  const link = newCardData.link;
-  section.addItem(createCard({ name, alt, link }));
-  newCardModal.close();
-}*/
-
-// /* Event Listeners */
+/* Event Listeners */
 
 profileEditButton.addEventListener("click", () => {
   const userInput = user.getUserInfo();
