@@ -9,7 +9,7 @@ export default class ModalWithForm extends Modal {
   }
 
   confirmDelete(handleFormSubmit) {
-    handleFormSubmit;
+    this._handleFormSubmit = handleFormSubmit;
   }
 
   _getInputValues() {

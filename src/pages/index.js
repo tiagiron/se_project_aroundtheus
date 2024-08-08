@@ -148,7 +148,7 @@ function confirmDeleteCard(cardData) {
   confirmDeleteModal.open();
   confirmDeleteModal.confirmDelete(() => {
     api
-      .deleteCard(cardData.id)
+      .deleteCard(cardData.getId())
       .then(() => {
         console.log("delete worked");
         cardData.handleDeleteCard();

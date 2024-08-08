@@ -12,17 +12,21 @@ export default class Card {
     this._handleDeleteCardClick = handleDeleteCardClick;
   }
 
+  getId() {
+    return this._id;
+  }
+
   _setEventListeners() {
     this._cardImage.addEventListener("click", () => {
       this._handleImageClick(this);
     });
     // ".card__like-button"
     this._likeButton.addEventListener("click", () => {
-      this._handleLikeIcon();
+      this._handleLikeIcon(this);
     });
     // ".card__delete-button"
     this._deleteButton.addEventListener("click", () => {
-      this._handleDeleteCardClick();
+      this._handleDeleteCardClick(this);
     });
   }
 
