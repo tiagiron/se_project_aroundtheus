@@ -33,16 +33,11 @@ export default class Api {
   }
 
   getAppInfo() {
-    /* Cards should be rendered after the user information is received from the server. Сreate 
-    a function in Api.js and return the Promise.all() method. Pass the array of function calls 
-    for getting user information and the list of cards to Promise.all() as a parameter.*/
-    return Promise.all([getUserInfo, getInitialCards]).then((res) =>
-      console.log(res),
-    );
+    return Promise.all([this.getUserInfo(), this.getInitialCards()]);
   }
 
   editProfile({ name, about }) {
-    fetch(`${this._baseURL}/users/me`, {
+    return fetch(`${this._baseURL}/users/me`, {
       method: "PATCH",
       headers: {
         authorization: this._authToken,
@@ -75,6 +70,22 @@ export default class Api {
       });
   }
 
+  likeCardStatus(cardId, like) {
+    return fetch(`${this._baseURL}/cards/${cardId}/likes`, {
+      method: like ? "PUT" : "DELETE",
+      headers: {
+        authorization: this._authToken,
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => {
+        return res.ok ? res.json() : Promise.reject(`Error: ${res.status}`);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }
+
   deleteCard(cardId) {
     return fetch(`${this._baseURL}/cards/${cardId}`, {
       method: "DELETE",
@@ -90,12 +101,27 @@ export default class Api {
         console.error(err);
       });
   }
+
+  updateAvatar({ avatar }) {
+    return fetch(`${this._baseURL}/users/me/avatar`, {
+      method: "PATCH",
+      headers: {
+        authorization: this._authToken,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ avatar }),
+    })
+      .then((res) => {
+        return res.ok ? res.json() : Promise.reject(`Error: ${res.status}`);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }
 }
 
 // Endpoints:
 /*User routes
-GET /users/me – Get the current user’s info
-PATCH /users/me – Update your profile information
 PATCH /users/me/avatar – Update avatar
 
 Card routes

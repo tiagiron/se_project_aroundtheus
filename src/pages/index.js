@@ -26,6 +26,10 @@ const api = new Api({
   authToken: "ea161ff4-cda4-4a20-a8db-64fec38336d8",
 });
 
+// api.getAppInfo().then(([userData, cards]) => {
+
+// });
+
 api.getUserInfo().then((userData) =>
   user.setUserInfo({
     name: userData.name,
@@ -79,7 +83,7 @@ const editProfileModal = new ModalWithForm({
         about: data.bio,
       })
       .then((data) => {
-        user.setUserInfo({ data });
+        user.setUserInfo({ name: data.name, bio: data.about });
       })
       .catch((err) => {
         console.error(err);
@@ -87,21 +91,10 @@ const editProfileModal = new ModalWithForm({
   },
 });
 
-// function handleProfileEditFormSubmit(profileData) {
-//   const name = profileData.title;
-//   const bio = profileData.bio;
-//   user.setUserInfo({ name, bio });
-//   editProfileModal.close();
-// }
-
-/* function handleAddCardFormSubmit(newCardData) {
-  console.log(newCardData);
-  const name = newCardData.title;
-  const alt = newCardData.title;
-  const link = newCardData.link;
-  section.addItem(createCard({ name, alt, link }));
-  newCardModal.close();
-}*/
+const confirmDeleteModal = new ModalWithForm({
+  modalSelector: "#confirm-delete-modal",
+  handleFormSubmit: confirmDeleteCard,
+});
 
 const imageModal = new ModalWithImage(cardSelectors.previewModal);
 
@@ -115,6 +108,7 @@ const user = new UserInfo({
 imageModal.setEventListeners();
 newCardModal.setEventListeners();
 editProfileModal.setEventListeners();
+confirmDeleteModal.setEventListeners();
 
 // /* Validation */
 
@@ -132,18 +126,39 @@ function createCard(data) {
       handleImageClick: () => {
         imageModal.open(data);
       },
-      handleDeleteCardClick: () => {
-        const id = card.getID();
-        api.deleteCard(id).then(() => {
-          card.handleDeleteCard();
-        });
+      handleLikeClick: (card) => {
+        api
+          .likeCardStatus(card.id(), !card.isLiked())
+          .then((data) => {
+            card.setLikesInfo({ ...data });
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       },
+      handleDeleteCardClick: confirmDeleteCard,
     },
     cardSelectors.cardTemplate,
   );
   return card.getView();
 }
 
+function confirmDeleteCard(cardData) {
+  console.log("delete modal opened");
+  confirmDeleteModal.open();
+  confirmDeleteModal.confirmDelete(() => {
+    api
+      .deleteCard(cardData.id)
+      .then(() => {
+        console.log("delete worked");
+        cardData.handleDeleteCard();
+        confirmDeleteModal.close();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  });
+}
 /* Event Listeners */
 
 profileEditButton.addEventListener("click", () => {

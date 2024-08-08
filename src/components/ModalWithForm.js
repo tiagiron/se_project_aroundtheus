@@ -8,6 +8,10 @@ export default class ModalWithForm extends Modal {
     this._inputList = [...this._modalForm.querySelectorAll(".modal__input")];
   }
 
+  confirmDelete(handleFormSubmit) {
+    handleFormSubmit;
+  }
+
   _getInputValues() {
     this._inputValues = {};
     this._inputList.forEach((input) => {
