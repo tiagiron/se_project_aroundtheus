@@ -128,9 +128,9 @@ function createCard(data) {
       },
       handleLikeClick: (card) => {
         api
-          .likeCardStatus(card.id(), !card.isLiked())
+          .likeCardStatus(card.getId(), !card._isLiked)
           .then((data) => {
-            card.setLikesInfo({ ...data });
+            card.handleLike({ ...data });
           })
           .catch((err) => {
             console.log(err);
@@ -144,13 +144,11 @@ function createCard(data) {
 }
 
 function confirmDeleteCard(cardData) {
-  console.log("delete modal opened");
   confirmDeleteModal.open();
   confirmDeleteModal.confirmDelete(() => {
     api
       .deleteCard(cardData.getId())
       .then(() => {
-        console.log("delete worked");
         cardData.handleDeleteCard();
         confirmDeleteModal.close();
       })
