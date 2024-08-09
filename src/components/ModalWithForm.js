@@ -6,6 +6,7 @@ export default class ModalWithForm extends Modal {
     this._modalForm = this._modalElement.querySelector(".modal__form");
     this._handleFormSubmit = handleFormSubmit;
     this._inputList = [...this._modalForm.querySelectorAll(".modal__input")];
+    this._saveButton = this._modalForm.querySelector(".modal__button");
   }
 
   confirmDelete(handleFormSubmit) {
@@ -23,6 +24,14 @@ export default class ModalWithForm extends Modal {
   close() {
     this._modalForm.reset();
     super.close();
+  }
+
+  renderLoading(isLoading) {
+    if (isLoading) {
+      this._saveButton.textContent = "Saving...";
+    } else {
+      this._saveButton.textContent = "Save";
+    }
   }
 
   setEventListeners() {

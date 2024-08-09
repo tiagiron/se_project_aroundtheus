@@ -28,27 +28,19 @@ const api = new Api({
   authToken: "ea161ff4-cda4-4a20-a8db-64fec38336d8",
 });
 
-// api.getAppInfo().then(([userData, cards]) => {
-
-// });
-
-api.getUserInfo().then((userData) =>
-  user.setUserInfo({
-    name: userData.name,
-    bio: userData.about,
-  }),
-);
-
 api
-  .getInitialCards()
-  .then((cards) => {
+  .getAppInfo()
+  .then(([userData, cards]) => {
+    user.setUserInfo({
+      name: userData.name,
+      bio: userData.about,
+    });
+    user.changeAvatarImage(userData.avatar);
     section.renderItems(cards);
   })
   .catch((err) => {
-    console.error(err);
+    console.error(`Failed to load app info: ${err}`);
   });
-
-// api.getAppInfo().then(([getUserInfo, getInitialCards]) => {
 
 //instantiate
 const section = new Section(
@@ -63,6 +55,7 @@ const section = new Section(
 const newCardModal = new ModalWithForm({
   modalSelector: "#add-card-modal",
   handleFormSubmit: (data) => {
+    newCardModal.renderLoading(true);
     api
       .addCard({
         name: data.title,
@@ -70,6 +63,13 @@ const newCardModal = new ModalWithForm({
       })
       .then((data) => {
         section.addItem(createCard(data));
+      })
+      .catch((err) => {
+        console.error(err);
+      })
+      .finally(() => {
+        newCardModal.renderLoading(false);
+        newCardModal.close();
       });
   },
 });
@@ -77,7 +77,7 @@ const newCardModal = new ModalWithForm({
 const editProfileModal = new ModalWithForm({
   modalSelector: "#profile-edit-modal",
   handleFormSubmit: (data) => {
-    console.log("data:", data);
+    editProfileModal.renderLoading(true);
     api
       .editProfile({
         name: data.title,
@@ -88,6 +88,10 @@ const editProfileModal = new ModalWithForm({
       })
       .catch((err) => {
         console.error(err);
+      })
+      .finally(() => {
+        editProfileModal.renderLoading(false);
+        editProfileModal.close();
       });
   },
 });
@@ -99,16 +103,20 @@ const confirmDeleteModal = new ModalWithForm({
 
 const changeAvatarModal = new ModalWithForm({
   modalSelector: "#change-avatar-modal",
-  handleFormSubmit: (link) => {
-    console.log("Link:", link);
+  handleFormSubmit: (data) => {
+    changeAvatarModal.renderLoading(true);
     api
-      .changeAvatar(link)
+      .changeAvatar(data.link)
       .then((userData) => {
         user.changeAvatarImage(userData.avatar);
         changeAvatarModal.close();
       })
       .catch((err) => {
         console.error(err);
+      })
+      .finally(() => {
+        changeAvatarModal.renderLoading(false);
+        changeAvatarModal.close();
       });
   },
 });
