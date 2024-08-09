@@ -102,14 +102,14 @@ export default class Api {
       });
   }
 
-  updateAvatar({ avatar }) {
+  changeAvatar(link) {
     return fetch(`${this._baseURL}/users/me/avatar`, {
       method: "PATCH",
       headers: {
         authorization: this._authToken,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ avatar }),
+      body: JSON.stringify({ avatar: link }),
     })
       .then((res) => {
         return res.ok ? res.json() : Promise.reject(`Error: ${res.status}`);

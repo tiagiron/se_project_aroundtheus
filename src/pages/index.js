@@ -11,6 +11,8 @@ import {
   profileEditForm,
   addCardButton,
   addCardForm,
+  changeAvatarButton,
+  changeAvatarForm,
 } from "../utils/constants.js";
 import Card from "../components/Card.js";
 import FormValidator from "../components/FormValidator.js";
@@ -61,7 +63,6 @@ const section = new Section(
 const newCardModal = new ModalWithForm({
   modalSelector: "#add-card-modal",
   handleFormSubmit: (data) => {
-    console.log("data:", data);
     api
       .addCard({
         name: data.title,
@@ -96,11 +97,28 @@ const confirmDeleteModal = new ModalWithForm({
   handleFormSubmit: confirmDeleteCard,
 });
 
+const changeAvatarModal = new ModalWithForm({
+  modalSelector: "#change-avatar-modal",
+  handleFormSubmit: (link) => {
+    console.log("Link:", link);
+    api
+      .changeAvatar(link)
+      .then((userData) => {
+        user.changeAvatarImage(userData.avatar);
+        changeAvatarModal.close();
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  },
+});
+
 const imageModal = new ModalWithImage(cardSelectors.previewModal);
 
 const user = new UserInfo({
   name: ".profile__title",
   bio: ".profile__bio",
+  avatar: ".profile__avatar",
 });
 
 // //initialize instances
@@ -109,13 +127,16 @@ imageModal.setEventListeners();
 newCardModal.setEventListeners();
 editProfileModal.setEventListeners();
 confirmDeleteModal.setEventListeners();
+changeAvatarModal.setEventListeners();
 
 // /* Validation */
 
 const editFormValidator = new FormValidator(settings, profileEditForm);
 const addFormValidator = new FormValidator(settings, addCardForm);
+const changeAvatarFormValidator = new FormValidator(settings, changeAvatarForm);
 editFormValidator.enableValidation();
 addFormValidator.enableValidation();
+changeAvatarFormValidator.enableValidation();
 
 // /* Functions */
 
@@ -170,4 +191,9 @@ profileEditButton.addEventListener("click", () => {
 addCardButton.addEventListener("click", () => {
   newCardModal.open();
   addFormValidator.resetValidation();
+});
+
+changeAvatarButton.addEventListener("click", () => {
+  changeAvatarModal.open();
+  changeAvatarFormValidator.resetValidation();
 });

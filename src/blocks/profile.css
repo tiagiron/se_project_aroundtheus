@@ -22,6 +22,28 @@
   margin-right: 30px;
 }
 
+.profile__avatar-edit-button {
+  background: transparent url("../images/edit-avatar.svg") center no-repeat;
+  position: absolute;
+  left: 0;
+  height: 120px;
+  width: 120px;
+  border: none;
+  object-position: center;
+  padding: 0;
+  margin: 0;
+  opacity: 0;
+  transition:
+    opacity 0.5s linear,
+    background-color 0.5s linear;
+}
+
+.profile__avatar-edit-button:hover {
+  opacity: 1;
+  cursor: pointer;
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
 .profile__title {
   font-family: "Inter", arial, sans-serif;
   font-weight: 500;
