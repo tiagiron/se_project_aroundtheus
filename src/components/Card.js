@@ -44,8 +44,8 @@ export default class Card {
     }
   }
 
-  handleLike() {
-    this._isLiked = !this._isLiked;
+  handleLike(isLiked) {
+    this._isLiked = isLiked;
     this._handleLikeIcon();
   }
 

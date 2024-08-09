@@ -130,7 +130,7 @@ function createCard(data) {
         api
           .likeCardStatus(card.getId(), !card._isLiked)
           .then((data) => {
-            card.handleLike({ ...data });
+            card.handleLike(data._isLiked);
           })
           .catch((err) => {
             console.log(err);
