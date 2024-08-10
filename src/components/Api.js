@@ -1,35 +1,31 @@
 export default class Api {
-  constructor({ baseURL, authToken }) {
+  constructor({ baseURL, headers }) {
     this._baseURL = baseURL;
-    this._authToken = authToken;
+    this._headers = headers;
+  }
+
+  _checkResponse(res) {
+    if (res.ok) {
+      return res.json();
+    } else {
+      return Promise.reject(`Error: ${res.status}`);
+    }
+  }
+
+  _request(url, options) {
+    return fetch(url, options).then(this._checkResponse);
   }
 
   getUserInfo() {
-    return fetch(`${this._baseURL}//users/me`, {
-      headers: {
-        authorization: this._authToken,
-      },
-    })
-      .then((res) => {
-        return res.ok ? res.json() : Promise.reject(`Error: ${res.status}`);
-      })
-      .catch((err) => {
-        return console.error(err);
-      });
+    return fetch(`${this._baseURL}/users/me`, {
+      headers: this._headers,
+    }).then(this._checkResponse);
   }
 
   getInitialCards() {
     return fetch(`${this._baseURL}/cards`, {
-      headers: {
-        authorization: this._authToken,
-      },
-    })
-      .then((res) => {
-        return res.ok ? res.json() : Promise.reject(`Error: ${res.status}`);
-      })
-      .catch((err) => {
-        return console.error(err);
-      });
+      headers: this._headers,
+    }).then(this._checkResponse);
   }
 
   getAppInfo() {
@@ -39,93 +35,38 @@ export default class Api {
   editProfile({ name, about }) {
     return fetch(`${this._baseURL}/users/me`, {
       method: "PATCH",
-      headers: {
-        authorization: this._authToken,
-        "Content-Type": "application/json",
-      },
+      headers: this._headers,
       body: JSON.stringify({ name, about }),
-    })
-      .then((res) => {
-        return res.ok ? res.json() : Promise.reject(`Error: ${res.status}`);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+    }).then(this._checkResponse);
   }
 
   addCard({ name, link }) {
     return fetch(`${this._baseURL}/cards`, {
       method: "POST",
-      headers: {
-        authorization: this._authToken,
-        "Content-Type": "application/json",
-      },
+      headers: this._headers,
       body: JSON.stringify({ name, link }),
-    })
-      .then((res) => {
-        return res.ok ? res.json() : Promise.reject(`Error: ${res.status}`);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+    }).then(this._checkResponse);
   }
 
   likeCardStatus(cardId, like) {
     return fetch(`${this._baseURL}/cards/${cardId}/likes`, {
       method: like ? "PUT" : "DELETE",
-      headers: {
-        authorization: this._authToken,
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => {
-        return res.ok ? res.json() : Promise.reject(`Error: ${res.status}`);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+      headers: this._headers,
+    }).then(this._checkResponse);
   }
 
   deleteCard(cardId) {
     return fetch(`${this._baseURL}/cards/${cardId}`, {
       method: "DELETE",
-      headers: {
-        authorization: this._authToken,
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => {
-        return res.ok ? res.json() : Promise.reject(`Error: ${res.status}`);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+      headers: this._headers,
+    }).then(this._checkResponse);
   }
 
   changeAvatar(link) {
     return fetch(`${this._baseURL}/users/me/avatar`, {
       method: "PATCH",
-      headers: {
-        authorization: this._authToken,
-        "Content-Type": "application/json",
-      },
+      headers: this._headers,
       body: JSON.stringify({ avatar: link }),
-    })
-      .then((res) => {
-        return res.ok ? res.json() : Promise.reject(`Error: ${res.status}`);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+    }).then(this._checkResponse);
   }
 }
-
-// Endpoints:
-/*User routes
-PATCH /users/me/avatar – Update avatar
-
-Card routes
-GET /cards – Get all cards
-DELETE /cards/:cardId – Delete a card
-PUT /cards/:cardId/likes – Like a card
-DELETE /cards/:cardId/likes – Dislike a card */

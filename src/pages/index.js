@@ -25,7 +25,10 @@ import Api from "../components/API.js";
 //API
 const api = new Api({
   baseURL: "https://around-api.en.tripleten-services.com/v1",
-  authToken: "ea161ff4-cda4-4a20-a8db-64fec38336d8",
+  headers: {
+    authorization: "ea161ff4-cda4-4a20-a8db-64fec38336d8",
+    "Content-Type": "application/json",
+  },
 });
 
 api
@@ -63,13 +66,11 @@ const newCardModal = new ModalWithForm({
       })
       .then((data) => {
         section.addItem(createCard(data));
+        newCardModal.close();
       })
-      .catch((err) => {
-        console.error(err);
-      })
+      .catch(console.error)
       .finally(() => {
         newCardModal.renderLoading(false);
-        newCardModal.close();
       });
   },
 });
@@ -85,13 +86,11 @@ const editProfileModal = new ModalWithForm({
       })
       .then((data) => {
         user.setUserInfo({ name: data.name, bio: data.about });
+        editProfileModal.close();
       })
-      .catch((err) => {
-        console.error(err);
-      })
+      .catch(console.error)
       .finally(() => {
         editProfileModal.renderLoading(false);
-        editProfileModal.close();
       });
   },
 });
@@ -111,12 +110,9 @@ const changeAvatarModal = new ModalWithForm({
         user.changeAvatarImage(userData.avatar);
         changeAvatarModal.close();
       })
-      .catch((err) => {
-        console.error(err);
-      })
+      .catch(console.error)
       .finally(() => {
         changeAvatarModal.renderLoading(false);
-        changeAvatarModal.close();
       });
   },
 });
@@ -161,9 +157,7 @@ function createCard(data) {
           .then((data) => {
             card.handleLike(data.isLiked);
           })
-          .catch((err) => {
-            console.log(err);
-          });
+          .catch(console.error);
       },
       handleDeleteCardClick: confirmDeleteCard,
     },
@@ -174,18 +168,17 @@ function createCard(data) {
 
 function confirmDeleteCard(cardData) {
   confirmDeleteModal.open();
-  confirmDeleteModal.confirmDelete(() => {
+  confirmDeleteModal.setSubmitHandler(() => {
     api
       .deleteCard(cardData.getId())
       .then(() => {
         cardData.handleDeleteCard();
         confirmDeleteModal.close();
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch(console.error);
   });
 }
+
 /* Event Listeners */
 
 profileEditButton.addEventListener("click", () => {
@@ -193,7 +186,7 @@ profileEditButton.addEventListener("click", () => {
   profileTitleInput.value = userInput.name;
   profileBioInput.value = userInput.bio;
   editProfileModal.open();
-  editFormValidator.toggleButtonState();
+  editFormValidator.resetValidation();
 });
 
 addCardButton.addEventListener("click", () => {
