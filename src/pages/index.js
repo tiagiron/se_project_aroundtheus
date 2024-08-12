@@ -186,6 +186,7 @@ profileEditButton.addEventListener("click", () => {
   profileTitleInput.value = userInput.name;
   profileBioInput.value = userInput.bio;
   editProfileModal.open();
+  editFormValidator.toggleButtonState();
   editFormValidator.resetValidation();
 });
 
