@@ -1,9 +1,20 @@
 export default class Card {
-  constructor({ data, handleImageClick }, cardSelector) {
+  constructor(
+    { data, handleImageClick, handleLikeClick, handleDeleteCardClick },
+    cardSelector,
+  ) {
     this.name = data.name;
     this.link = data.link;
+    this._id = data._id;
+    this._isLiked = data.isLiked;
     this._cardSelector = cardSelector;
     this._handleImageClick = handleImageClick;
+    this._handleLikeClick = handleLikeClick;
+    this._handleDeleteCardClick = handleDeleteCardClick;
+  }
+
+  getId() {
+    return this._id;
   }
 
   _setEventListeners() {
@@ -12,21 +23,30 @@ export default class Card {
     });
     // ".card__like-button"
     this._likeButton.addEventListener("click", () => {
-      this._handleLikeIcon();
+      this._handleLikeClick(this);
     });
     // ".card__delete-button"
     this._deleteButton.addEventListener("click", () => {
-      this._handleDeleteCard();
+      this._handleDeleteCardClick(this);
     });
   }
 
-  _handleDeleteCard() {
+  handleDeleteCard() {
     this._cardElement.remove();
     this._cardElement = null;
   }
 
   _handleLikeIcon() {
-    this._likeButton.classList.toggle("card__like-button_active");
+    if (this._isLiked) {
+      this._likeButton.classList.add("card__like-button_active");
+    } else {
+      this._likeButton.classList.remove("card__like-button_active");
+    }
+  }
+
+  handleLike(isLiked) {
+    this._isLiked = isLiked;
+    this._handleLikeIcon();
   }
 
   _getTemplate() {
@@ -38,8 +58,7 @@ export default class Card {
 
   getView() {
     this._cardElement = this._getTemplate();
-    //     //get card view
-
+    //get card view
     this._likeButton = this._cardElement.querySelector(".card__like-button");
     this._cardImage = this._cardElement.querySelector(".card__image");
     this._deleteButton = this._cardElement.querySelector(
@@ -50,6 +69,7 @@ export default class Card {
     this._cardElement.querySelector(".card__title").textContent = this.name;
     //set evt listeners
     this._setEventListeners();
+    this._handleLikeIcon();
     //return card
     return this._cardElement;
   }
